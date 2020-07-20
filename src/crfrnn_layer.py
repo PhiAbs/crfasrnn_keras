@@ -24,8 +24,8 @@ SOFTWARE.
 
 import numpy as np
 import tensorflow as tf
-from keras.engine.topology import Layer
-
+# from tensorflow.keras.engine.topology import Layer
+from tensorflow.keras.layers import Layer
 import high_dim_filter_loader
 
 custom_module = high_dim_filter_loader.custom_module
@@ -128,3 +128,19 @@ class CrfRnnLayer(Layer):
 
     def compute_output_shape(self, input_shape):
         return input_shape
+
+
+    def get_config(self):
+        config = super().get_config().copy()
+        config.update({
+            'image_dims': self.image_dims,
+            'num_classes': self.num_classes,
+            'theta_alpha': self.theta_alpha,
+            'theta_beta': self.theta_beta,
+            'theta_gamma': self.theta_gamma,
+            'num_iterations': self.num_iterations,
+            'spatial_ker_weights': self.spatial_ker_weights,
+            'bilateral_ker_weights': self.bilateral_ker_weights,
+            'compatibility_matrix': self.compatibility_matrix,
+        })
+        return config
